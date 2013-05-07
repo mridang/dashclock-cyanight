@@ -59,7 +59,7 @@ public class CyanightWidget extends DashClockExtension {
 					Integer intDays = Days.daysBetween(new DateTime(datBuild), new DateTime(datToday)).getDays();
 
 					edtInformation.visible(true);
-					edtInformation.status(String.format(getString(R.string.changes), intDays));
+					edtInformation.status(res.getQuantityString(R.plurals.changes, intDays, intDays));
 					edtInformation.expandedBody(String.format(getString(R.string.current), HelperFunctions.getBuildString()));
 
 					ComponentName comp = new ComponentName("com.cyanogenmod.updater", "com.cyanogenmod.updater.UpdatesSettings");
