@@ -3,7 +3,7 @@
 
     <plurals name="changes">
         <item quantity="one">Cyanogenmod — %1$d day old</item>
-        <item quantity="other">Cyanogenmod — is %1$d days old</item>
+        <item quantity="other">Cyanogenmod — %1$d days old</item>
     </plurals>
 
 </resources>
