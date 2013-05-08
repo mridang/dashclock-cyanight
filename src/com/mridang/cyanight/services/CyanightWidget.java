@@ -40,8 +40,6 @@ public class CyanightWidget extends DashClockExtension {
 	@Override
 	protected void onUpdateData(int arg0) {
 
-		setUpdateWhenScreenOn(true);
-
 		Log.d("CyanightWidget", "Checking nightly commits");
 		ExtensionData edtInformation = new ExtensionData();
 		edtInformation.visible(false);

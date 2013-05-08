@@ -19,10 +19,10 @@ public class HelperFunctions {
 	public static String getVersion() {
 
 		String strBuild = getBuildString();
-	    if (strBuild != null) {
+	    if (strBuild != null && strBuild.split("-").length == 4) {
 	    	return strBuild.split("-")[0];
 	    }
-	    return null;
+	    return "";
 		
 	}
 
@@ -34,10 +34,10 @@ public class HelperFunctions {
 	public static String getType() {
 
 		String strType = getBuildString();
-	    if (strType != null) {
+	    if (strType != null && strType.split("-").length == 4) {
 	    	return strType.split("-")[2];
 	    }
-	    return null;
+	    return "";
 		
 	}
 	
@@ -88,10 +88,10 @@ public class HelperFunctions {
 	public static String getDate() {
 
 		String strDate = getBuildString();
-	    if (strDate != null) {
+	    if (strDate != null && strDate.split("-").length == 4) {
 	    	return strDate.split("-")[1];
 	    }
-	    return null;
+	    return "";
 		
 	}
 
@@ -103,10 +103,10 @@ public class HelperFunctions {
 	public static String getModel() {
 
 		String strModel = getBuildString();
-	    if (strModel != null) {
+	    if (strModel != null && strModel.split("-").length == 4) {
 	    	return strModel.split("-")[3];
 	    }
-	    return null;
+	    return "";
 		
 	}
     
