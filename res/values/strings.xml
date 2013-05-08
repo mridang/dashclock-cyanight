@@ -1,12 +1,7 @@
 <resources>
 
-    <string name="current">%1$s</string>
     <string name="extension_name">Cyanight</string>
     <string name="application_name">Dashclock Cyanight Extension</string>
     <string name="extension_info">Displays information about about age of your phone\'s Cyanogenmod nightly build.</string>
-    <plurals name="changes">
-        <item quantity="one">Current version is %1$d day old</item>
-        <item quantity="other">Current version is %1$d days old</item>
-    </plurals>
 
 </resources>

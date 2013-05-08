@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <plurals name="changes">
+        <item quantity="one">Cyanogenmod — %1$d day old</item>
+        <item quantity="other">Cyanogenmod — is %1$d days old</item>
+    </plurals>
+
+</resources>

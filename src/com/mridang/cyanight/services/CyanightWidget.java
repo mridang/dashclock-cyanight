@@ -55,16 +55,22 @@ public class CyanightWidget extends DashClockExtension {
 				try {
 
 					Date datBuild = new SimpleDateFormat("yyyyMMdd").parse(HelperFunctions.getDate());
-					Date datToday = new Date();
-					Integer intDays = Days.daysBetween(new DateTime(datBuild), new DateTime(datToday)).getDays();
+					Integer intDays = Days.daysBetween(new DateTime(datBuild), new DateTime(new Date())).getDays();
 
-					edtInformation.visible(true);
-					edtInformation.status(res.getQuantityString(R.plurals.changes, intDays, intDays));
-					edtInformation.expandedBody(String.format(getString(R.string.current), HelperFunctions.getBuildString()));
+					Log.d("CyanightWidget", "Checking if it is older than zero days");
+					if (intDays > 0) {
 
-					ComponentName comp = new ComponentName("com.cyanogenmod.updater", "com.cyanogenmod.updater.UpdatesSettings");
-					Intent ittUpdater = new Intent().setComponent(comp);
-					edtInformation.clickIntent(ittUpdater);
+						edtInformation.visible(true);
+						edtInformation.status(getResources().getQuantityString(R.plurals.changes, intDays, intDays));
+						edtInformation.expandedBody(HelperFunctions.getBuildString());
+
+						ComponentName comp = new ComponentName("com.cyanogenmod.updater", "com.cyanogenmod.updater.UpdatesSettings");
+						Intent ittUpdater = new Intent().setComponent(comp);
+						edtInformation.clickIntent(ittUpdater);
+
+					} else {
+						Log.d("CyanightWidget", "It isn't older than zero days");
+					}
 
 				} catch (Exception e) {
 					Log.e("CyanightWidget", "Unable to calculate age", e);
