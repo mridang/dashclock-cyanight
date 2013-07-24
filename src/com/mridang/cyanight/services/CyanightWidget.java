@@ -2,12 +2,17 @@ package com.mridang.cyanight.services;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
 import android.util.Log;
 
 import com.bugsense.trace.BugSenseHandler;
@@ -59,7 +64,7 @@ public class CyanightWidget extends DashClockExtension {
 					if (intDays > 0) {
 
 						edtInformation.visible(true);
-						edtInformation.status(getResources().getQuantityString(R.plurals.changes, intDays, intDays));
+						edtInformation.expandedTitle(getResources().getQuantityString(R.plurals.changes, intDays, intDays));
 						edtInformation.expandedBody(HelperFunctions.getBuildString());
 
 						ComponentName comp = new ComponentName("com.cyanogenmod.updater", "com.cyanogenmod.updater.UpdatesSettings");
@@ -78,6 +83,37 @@ public class CyanightWidget extends DashClockExtension {
 				Log.d("CyanightWidget", "Not a nightly build");
 			}
 
+			if (new Random().nextInt(5) == 0) {
+				
+				PackageManager mgrPackages = getApplicationContext().getPackageManager();
+
+				try {
+
+					mgrPackages.getPackageInfo("com.mridang.donate", PackageManager.GET_META_DATA);
+
+				} catch (NameNotFoundException e) {
+
+					Integer intExtensions = 0;
+
+					for (PackageInfo pkgPackage : mgrPackages.getInstalledPackages(0)) {
+						
+						intExtensions = intExtensions + (pkgPackage.applicationInfo.packageName.startsWith("com.mridang.") ? 1 : 0); 
+
+					}
+
+					if (intExtensions > 1) {
+
+						edtInformation.visible(true);
+						edtInformation.clickIntent(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("market://details?id=com.mridang.donate")));
+						edtInformation.expandedTitle("Please consider a one time purchase to unlock.");
+						edtInformation.expandedBody("Thank you for using " + intExtensions + " extensions of mine. Click this to make a one-time purchase or use just one extension to make this disappear.");
+
+					}
+
+				}
+
+			}
+			
 		} catch (Exception e) {
 			Log.e("CyanightWidget", "Encountered an error", e);
 			BugSenseHandler.sendException(e);
