@@ -54,29 +54,22 @@ public class CyanightWidget extends DashClockExtension {
 			Log.d("CyanightWidget", "Checking if it is a nightly build");
 			if (HelperFunctions.getType().equalsIgnoreCase("NIGHTLY")) {
 
-				Log.d("CyanightWidget", "Calculating the age");
-				try {
+				Date datBuild = new SimpleDateFormat("yyyyMMdd").parse(HelperFunctions.getDate());
+				Integer intDays = Days.daysBetween(new DateTime(datBuild), new DateTime(new Date())).getDays();
 
-					Date datBuild = new SimpleDateFormat("yyyyMMdd").parse(HelperFunctions.getDate());
-					Integer intDays = Days.daysBetween(new DateTime(datBuild), new DateTime(new Date())).getDays();
+				Log.d("CyanightWidget", "Checking if it is older than zero days");
+				if (intDays > 0) {
 
-					Log.d("CyanightWidget", "Checking if it is older than zero days");
-					if (intDays > 0) {
+					edtInformation.visible(true);
+					edtInformation.expandedTitle(getResources().getQuantityString(R.plurals.changes, intDays, intDays));
+					edtInformation.expandedBody(HelperFunctions.getBuildString());
 
-						edtInformation.visible(true);
-						edtInformation.expandedTitle(getResources().getQuantityString(R.plurals.changes, intDays, intDays));
-						edtInformation.expandedBody(HelperFunctions.getBuildString());
+					ComponentName comp = new ComponentName("com.cyanogenmod.updater", "com.cyanogenmod.updater.UpdatesSettings");
+					Intent ittUpdater = new Intent().setComponent(comp);
+					edtInformation.clickIntent(ittUpdater);
 
-						ComponentName comp = new ComponentName("com.cyanogenmod.updater", "com.cyanogenmod.updater.UpdatesSettings");
-						Intent ittUpdater = new Intent().setComponent(comp);
-						edtInformation.clickIntent(ittUpdater);
-
-					} else {
-						Log.d("CyanightWidget", "It isn't older than zero days");
-					}
-
-				} catch (Exception e) {
-					Log.e("CyanightWidget", "Unable to calculate age", e);
+				} else {
+					Log.d("CyanightWidget", "It isn't older than zero days");
 				}
 
 			} else {
@@ -84,7 +77,7 @@ public class CyanightWidget extends DashClockExtension {
 			}
 
 			if (new Random().nextInt(5) == 0) {
-				
+
 				PackageManager mgrPackages = getApplicationContext().getPackageManager();
 
 				try {
@@ -96,7 +89,7 @@ public class CyanightWidget extends DashClockExtension {
 					Integer intExtensions = 0;
 
 					for (PackageInfo pkgPackage : mgrPackages.getInstalledPackages(0)) {
-						
+
 						intExtensions = intExtensions + (pkgPackage.applicationInfo.packageName.startsWith("com.mridang.") ? 1 : 0); 
 
 					}
@@ -107,13 +100,16 @@ public class CyanightWidget extends DashClockExtension {
 						edtInformation.clickIntent(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("market://details?id=com.mridang.donate")));
 						edtInformation.expandedTitle("Please consider a one time purchase to unlock.");
 						edtInformation.expandedBody("Thank you for using " + intExtensions + " extensions of mine. Click this to make a one-time purchase or use just one extension to make this disappear.");
+						setUpdateWhenScreenOn(true);
 
 					}
 
 				}
 
+			} else {
+				setUpdateWhenScreenOn(false);
 			}
-			
+
 		} catch (Exception e) {
 			Log.e("CyanightWidget", "Encountered an error", e);
 			BugSenseHandler.sendException(e);
