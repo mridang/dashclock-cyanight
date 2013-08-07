@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mridang.cyanight"
-    android:versionCode="5"
-    android:versionName="0.5" >
+    android:versionCode="6"
+    android:versionName="0.6" >
 
     <uses-sdk
         android:minSdkVersion="17"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,7 +15,7 @@
         android:label="@string/application_name"
         android:theme="@android:style/Theme.Holo.Light.DarkActionBar" >
         <service
-            android:name="com.mridang.cyanight.services.CyanightWidget"
+            android:name="com.mridang.cyanight.CyanightWidget"
             android:icon="@drawable/ic_dashclock"
             android:label="@string/extension_name"
             android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >

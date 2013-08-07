@@ -1,4 +1,4 @@
-package com.mridang.cyanight.services;
+package com.mridang.cyanight;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,8 +18,6 @@ import android.util.Log;
 import com.bugsense.trace.BugSenseHandler;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
-import com.mridang.cyanight.R;
-import com.mridang.cyanight.functions.HelperFunctions;
 
 /*
  * This class is the main class that provides the widget
@@ -47,7 +45,7 @@ public class CyanightWidget extends DashClockExtension {
 
 		Log.d("CyanightWidget", "Checking nightly commits");
 		ExtensionData edtInformation = new ExtensionData();
-		edtInformation.visible(false);
+		setUpdateWhenScreenOn(false);
 
 		try {
 
@@ -111,6 +109,7 @@ public class CyanightWidget extends DashClockExtension {
 			}
 
 		} catch (Exception e) {
+			edtInformation.visible(false);
 			Log.e("CyanightWidget", "Encountered an error", e);
 			BugSenseHandler.sendException(e);
 		}

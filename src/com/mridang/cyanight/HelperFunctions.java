@@ -1,4 +1,4 @@
-package com.mridang.cyanight.functions;
+package com.mridang.cyanight;
 
 import java.io.BufferedReader;
 import java.io.IOException;
