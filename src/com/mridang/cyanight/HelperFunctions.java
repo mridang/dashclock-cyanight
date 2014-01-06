@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 
 import android.util.Log;
 
+
 /*
  * This class contains very simple helper-functions
  */
