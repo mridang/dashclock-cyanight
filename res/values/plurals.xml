@@ -2,8 +2,8 @@
 <resources>
 
     <plurals name="changes">
-        <item quantity="one">Cyanogenmod — %1$d day old</item>
-        <item quantity="other">Cyanogenmod — %1$d days old</item>
+        <item quantity="one">Nightly is %1$d day old</item>
+        <item quantity="other">Nightly is %1$d days old</item>
     </plurals>
 
 </resources>
