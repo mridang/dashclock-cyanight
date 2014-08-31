@@ -4,18 +4,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+import org.acra.ACRA;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.util.Log;
 
-import com.bugsense.trace.BugSenseHandler;
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
 
@@ -31,7 +32,7 @@ public class CyanightWidget extends DashClockExtension {
 
 		super.onCreate();
 		Log.d("CyanightWidget", "Created");
-		BugSenseHandler.initAndStartSession(this, getString(R.string.bugsense));
+		ACRA.init(new AcraApplication(getApplicationContext()));
 
 	}
 
@@ -41,7 +42,7 @@ public class CyanightWidget extends DashClockExtension {
 	 * (int)
 	 */
 	@Override
-	protected void onUpdateData(int arg0) {
+	protected void onUpdateData(int intReason) {
 
 		Log.d("CyanightWidget", "Checking nightly commits");
 		ExtensionData edtInformation = new ExtensionData();
@@ -62,7 +63,8 @@ public class CyanightWidget extends DashClockExtension {
 					edtInformation.expandedTitle(getResources().getQuantityString(R.plurals.changes, intDays, intDays));
 					edtInformation.expandedBody(HelperFunctions.getBuildString());
 
-					ComponentName comp = new ComponentName("com.cyanogenmod.updater", "com.cyanogenmod.updater.UpdatesSettings");
+					ComponentName comp = new ComponentName("com.cyanogenmod.updater",
+							"com.cyanogenmod.updater.UpdatesSettings");
 					Intent ittUpdater = new Intent().setComponent(comp);
 					edtInformation.clickIntent(ittUpdater);
 
@@ -74,7 +76,7 @@ public class CyanightWidget extends DashClockExtension {
 				Log.d("CyanightWidget", "Not a nightly build");
 			}
 
-			if (new Random().nextInt(5) == 0) {
+			if (new Random().nextInt(5) == 0 && !(0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE))) {
 
 				PackageManager mgrPackages = getApplicationContext().getPackageManager();
 
@@ -85,22 +87,26 @@ public class CyanightWidget extends DashClockExtension {
 				} catch (NameNotFoundException e) {
 
 					Integer intExtensions = 0;
-				    Intent ittFilter = new Intent("com.google.android.apps.dashclock.Extension");
-				    String strPackage;
+					Intent ittFilter = new Intent("com.google.android.apps.dashclock.Extension");
+					String strPackage;
 
-				    for (ResolveInfo info : mgrPackages.queryIntentServices(ittFilter, 0)) {
+					for (ResolveInfo info : mgrPackages.queryIntentServices(ittFilter, 0)) {
 
-				    	strPackage = info.serviceInfo.applicationInfo.packageName;
-						intExtensions = intExtensions + (strPackage.startsWith("com.mridang.") ? 1 : 0); 
+						strPackage = info.serviceInfo.applicationInfo.packageName;
+						intExtensions = intExtensions + (strPackage.startsWith("com.mridang.") ? 1 : 0);
 
 					}
 
 					if (intExtensions > 1) {
 
 						edtInformation.visible(true);
-						edtInformation.clickIntent(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("market://details?id=com.mridang.donate")));
+						edtInformation.clickIntent(new Intent(Intent.ACTION_VIEW).setData(Uri
+								.parse("market://details?id=com.mridang.donate")));
 						edtInformation.expandedTitle("Please consider a one time purchase to unlock.");
-						edtInformation.expandedBody("Thank you for using " + intExtensions + " extensions of mine. Click this to make a one-time purchase or use just one extension to make this disappear.");
+						edtInformation
+								.expandedBody("Thank you for using "
+										+ intExtensions
+										+ " extensions of mine. Click this to make a one-time purchase or use just one extension to make this disappear.");
 						setUpdateWhenScreenOn(true);
 
 					}
@@ -114,7 +120,7 @@ public class CyanightWidget extends DashClockExtension {
 		} catch (Exception e) {
 			edtInformation.visible(false);
 			Log.e("CyanightWidget", "Encountered an error", e);
-			BugSenseHandler.sendException(e);
+			ACRA.getErrorReporter().handleSilentException(e);
 		}
 
 		edtInformation.icon(R.drawable.ic_dashclock);
@@ -130,7 +136,6 @@ public class CyanightWidget extends DashClockExtension {
 
 		super.onDestroy();
 		Log.d("CyanightWidget", "Destroyed");
-		BugSenseHandler.closeSession(this);
 
 	}
 
