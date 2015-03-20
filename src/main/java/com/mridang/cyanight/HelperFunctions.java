@@ -9,28 +9,13 @@ import android.util.Log;
 /*
  * This class contains very simple helper-functions
  */
-public class HelperFunctions {
+class HelperFunctions {
 
-	/*
-	 * This method returns the version of the build
-	 * 
-	 * @returns The version of the build
-	 */
-	public static String getVersion() {
-
-		String strBuild = getBuildString();
-		if (strBuild != null && strBuild.split("-").length == 4) {
-			return strBuild.split("-")[0];
-		}
-		return "";
-
-	}
-
-	/*
-	 * This method returns the type of the build
-	 * 
-	 * @returns The type of the build
-	 */
+    /*
+     * This method returns the type of the build
+     *
+     * @returns The type of the build
+     */
 	public static String getType() {
 
 		String strType = getBuildString();
@@ -90,21 +75,6 @@ public class HelperFunctions {
 		String strDate = getBuildString();
 		if (strDate != null && strDate.split("-").length == 4) {
 			return strDate.split("-")[1];
-		}
-		return "";
-
-	}
-
-	/*
-	 * This method returns the model of the build
-	 * 
-	 * @returns The version of the build
-	 */
-	public static String getModel() {
-
-		String strModel = getBuildString();
-		if (strModel != null && strModel.split("-").length == 4) {
-			return strModel.split("-")[3];
 		}
 		return "";
 

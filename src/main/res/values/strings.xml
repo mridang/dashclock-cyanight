@@ -2,6 +2,6 @@
 
     <string name="extension_name">Cyanight</string>
     <string name="application_name">Dashclock Cyanight Extension</string>
-    <string name="extension_info">Displays information about about age of your phone\'s Cyanogenmod nightly build.</string>
+    <string name="extension_info">Displays information about the age of your phone\'s Cyanogenmod nightly build.</string>
 
 </resources>
